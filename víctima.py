@@ -46,7 +46,7 @@ def print_network_info():
     print("       valid_lft forever preferred_lft forever")
     print("2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000")
     print("    link/ether 08:00:27:d2:26:79 brd ff:ff:ff:ff:ff:ff")
-    print("    inet 10.0.2.15/24 brd 10.0.2.255 scope global dynamic noprefixroute eth0")
+    print("    inet 192.168.18.7/24 brd 192.168.18.255 scope global dynamic noprefixroute eth0")
     print("       valid_lft 85392sec preferred_lft 85392sec")
     print("    inet6 fe80::d35e:8255:8f20:29c/64 scope link noprefixroute")
     print("       valid_lft forever preferred_lft forever")
