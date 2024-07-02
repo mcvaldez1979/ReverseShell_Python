@@ -2,7 +2,7 @@ from socket import socket
 from subprocess import getoutput
 from Crypto.Cipher import AES
 
-server_address = ('0.0.0.0', 5000)
+server_address = ('192.168.6.38', 5000)
 key = b'Sixteen byte key'
 
 def encrypt(data, key, iv):
