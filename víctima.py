@@ -4,7 +4,7 @@ from os import chdir, getcwd
 from time import sleep
 
 # Definimos la dirección y puerto, la direcion 0.0.0.0 hace referencia a que aceptamos conexiones de cualquier interfaz
-server_address = ('192.168.6.38', 5000)
+server_address = ('0.0.0.0', 5000)
 
 # Creamos el socket (la conexión)
 server_socket = socket()
