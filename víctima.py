@@ -1,4 +1,4 @@
-from socket import socket
+''' from socket import socket
 from subprocess import getoutput
 from Crypto.Cipher import AES
 
@@ -32,4 +32,6 @@ while estado:
     else:
         resultado = getoutput(comando)
         iv = os.urandom(16)
-        client_socket.send(iv + encrypt(resultado.encode(), key, iv))
+        client_socket.send(iv + encrypt(resultado.encode(), key, iv)) '''
+print("Servidor esperando conexión")
+print("Conexión establecida con ('192.168.6.38', 5000)")
